@@ -1,0 +1,33 @@
+c:\users\javide\documents\visual studio 2010\Projects\MySynch\MySynch\obj\x86\Debug\ResolveAssemblyReference.cache
+c:\users\javide\documents\visual studio 2010\Projects\MySynch\MySynch\obj\x86\Debug\MainWindow.baml
+c:\users\javide\documents\visual studio 2010\Projects\MySynch\MySynch\obj\x86\Debug\MainWindow.g.cs
+c:\users\javide\documents\visual studio 2010\Projects\MySynch\MySynch\obj\x86\Debug\App.g.cs
+c:\users\javide\documents\visual studio 2010\Projects\MySynch\MySynch\obj\x86\Debug\MySynch_MarkupCompile.cache
+c:\users\javide\documents\visual studio 2010\Projects\MySynch\MySynch\obj\x86\Debug\MySynch.g.resources
+c:\users\javide\documents\visual studio 2010\Projects\MySynch\MySynch\obj\x86\Debug\MySynch.Properties.Resources.resources
+c:\users\javide\documents\visual studio 2010\Projects\MySynch\MySynch\obj\x86\Debug\GenerateResource.read.1.tlog
+c:\users\javide\documents\visual studio 2010\Projects\MySynch\MySynch\obj\x86\Debug\GenerateResource.write.1.tlog
+c:\users\javide\documents\visual studio 2010\Projects\MySynch\MySynch\bin\Debug\MySynch.exe
+c:\users\javide\documents\visual studio 2010\Projects\MySynch\MySynch\bin\Debug\MySynch.pdb
+c:\users\javide\documents\visual studio 2010\Projects\MySynch\MySynch\obj\x86\Debug\MySynch.exe
+c:\users\javide\documents\visual studio 2010\Projects\MySynch\MySynch\obj\x86\Debug\MySynch.pdb
+c:\users\javide\documents\visual studio 2010\Projects\MySynch\MySynch\bin\Debug\Newtonsoft.Json.Net35.dll
+c:\users\javide\documents\visual studio 2010\Projects\MySynch\MySynch\bin\Debug\WPFToolkit.dll
+D:\Develop\Caspian\ProjectCodes\Other\MySynch\MySynch\bin\Debug\MySynch.exe
+D:\Develop\Caspian\ProjectCodes\Other\MySynch\MySynch\bin\Debug\MySynch.pdb
+D:\Develop\Caspian\ProjectCodes\Other\MySynch\MySynch\bin\Debug\Newtonsoft.Json.Net35.dll
+D:\Develop\Caspian\ProjectCodes\Other\MySynch\MySynch\bin\Debug\WPFToolkit.dll
+D:\Develop\Caspian\ProjectCodes\Other\MySynch\MySynch\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\Develop\Caspian\ProjectCodes\Other\MySynch\MySynch\obj\x86\Debug\MainWindow.baml
+D:\Develop\Caspian\ProjectCodes\Other\MySynch\MySynch\obj\x86\Debug\MainWindow.g.cs
+D:\Develop\Caspian\ProjectCodes\Other\MySynch\MySynch\obj\x86\Debug\App.g.cs
+D:\Develop\Caspian\ProjectCodes\Other\MySynch\MySynch\obj\x86\Debug\MySynch_MarkupCompile.cache
+D:\Develop\Caspian\ProjectCodes\Other\MySynch\MySynch\obj\x86\Debug\MySynch.g.resources
+D:\Develop\Caspian\ProjectCodes\Other\MySynch\MySynch\obj\x86\Debug\MySynch.Properties.Resources.resources
+D:\Develop\Caspian\ProjectCodes\Other\MySynch\MySynch\obj\x86\Debug\GenerateResource.read.1.tlog
+D:\Develop\Caspian\ProjectCodes\Other\MySynch\MySynch\obj\x86\Debug\GenerateResource.write.1.tlog
+D:\Develop\Caspian\ProjectCodes\Other\MySynch\MySynch\obj\x86\Debug\MySynch.exe
+D:\Develop\Caspian\ProjectCodes\Other\MySynch\MySynch\obj\x86\Debug\MySynch.pdb
+D:\Develop\Caspian\ProjectCodes\Other\MySynch\MySynch\obj\x86\Debug\MySynch_Content.g.cs
+D:\Develop\Caspian\ProjectCodes\Other\MySynch\MySynch\bin\Debug\pic\right.jpg
+D:\Develop\Caspian\ProjectCodes\Other\MySynch\MySynch\bin\Debug\pic\left.jpg
