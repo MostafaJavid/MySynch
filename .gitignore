@@ -1,1 +1,6 @@
-# Visual Studio Files
+# Log Files
+*.log
+
+# Generated project build files
+MySynch/bin
+MySynch/obj
