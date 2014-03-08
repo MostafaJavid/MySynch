@@ -26,8 +26,8 @@ namespace MySynch
 
         string leftRootPath;
         string rightRootPath;
-        public static readonly string RepositoryFileName = "_JSYNCH.txt";
-        public static readonly string TrashFolderName = "_JSYNCH_DELETED_FILES_BACKUP"; 
+        public static readonly string RepositoryFileName = "__MY_SYNCH__.txt";
+        public static readonly string TrashFolderName = "__MY_SYNCH_DELETED_FILES_BACKUP__"; 
         List<SOperation> Operations;
 
         #endregion
@@ -43,6 +43,12 @@ namespace MySynch
                 lst.Items.Add(new CheckBox() { Content = name , IsThreeState = false , IsChecked = true });
             }
             (lst.Items[0] as CheckBox).IsChecked = false;
+
+            //txtLeftPath.Text = "C:\\test";
+            //txtRightPath.Text = "D:\\test";
+
+            txtLeftPath.Text = @"C:\Users\javide\Downloads";
+            txtRightPath.Text = @"G:\Downloads";
         } 
 
         #endregion
@@ -116,5 +122,14 @@ namespace MySynch
             }
         }
 
+        private void TxtLeftPath_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            txtLeftPath.Text = SynchHelper.CheckFinalbackSlash(txtLeftPath.Text);
+        }
+
+        private void TxtRightPath_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            txtRightPath.Text = SynchHelper.CheckFinalbackSlash(txtRightPath.Text);
+        }
     }
 }

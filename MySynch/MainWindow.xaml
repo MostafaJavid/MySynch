@@ -16,9 +16,9 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Row="0" Grid.Column="0" Text="C:\Users\javide\Downloads\University" Name="txtLeftPath" />
+            <TextBox Grid.Row="0" Grid.Column="0" Text="C:\test\" Name="txtLeftPath" LostFocus="TxtLeftPath_OnLostFocus" />
             <Button Grid.Row="0"  Grid.Column="1" Content="left" Click="btnLeft_Click" />
-            <TextBox Grid.Row="0" Grid.Column="2" Text="G:\University" Name="txtRightPath" />
+            <TextBox Grid.Row="0" Grid.Column="2" Text="D:\test" Name="txtRightPath" LostFocus="TxtRightPath_OnLostFocus" />
             <Button Grid.Row="0"  Grid.Column="3" Content="right" Click="btnRight_Click" />
         </Grid>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" >
@@ -37,9 +37,8 @@
             <ListBox Name="lstRight" Grid.Column="1" />-->
             <DataGrid Name="grdMain" AutoGenerateColumns="False" IsReadOnly="True" >
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding LeftPath}" Header="Left" />
+                    <DataGridTextColumn Binding="{Binding Path}" Header="Left" />
                     <DataGridTextColumn Binding="{Binding Operation}" Header="Operation" />
-                    <!--<DataGridTextColumn Binding="{Binding RightPath}" Header="Right" />-->
                     <DataGridTextColumn Binding="{Binding OperationResult}" Header="OperationResult" />
                     <DataGridTextColumn Binding="{Binding ErrorMessage}" Header="ErrorMessage" />
                 </DataGrid.Columns>

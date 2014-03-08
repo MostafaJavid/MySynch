@@ -17,7 +17,12 @@ namespace MySynch
     /// </summary>
     public class SynchHelper
     {
-        public static SDirectory GetDirectory(string fullPath, string rootPath)
+        public static SDirectory GetDirectory(string fullPath)
+        {
+            return GetDirectory(fullPath, fullPath);
+        }
+
+        private static SDirectory GetDirectory(string fullPath, string rootPath)
         {
             var folder = new SDirectory();
             folder.Path = fullPath.Remove(0, rootPath.Length);
@@ -27,10 +32,10 @@ namespace MySynch
             folder.AddFiles(GetFiles(fullPath, rootPath));
 
             var innerDirectories = Directory.GetDirectories(fullPath);
-            var fullTrashName = rootPath + "\\" + MainWindow.TrashFolderName;
+            var fullTrashName = "\\" + MainWindow.TrashFolderName;
             foreach (var d in innerDirectories)
             {
-                if (!d.Equals(fullTrashName))
+                if (!d.EndsWith(fullTrashName))
                 {
                     folder.AddDirectory(GetDirectory(d, rootPath));
                 }
@@ -42,10 +47,10 @@ namespace MySynch
         {
             var files = Directory.GetFiles(directoryFullPath);
             var result = new List<SFile>();
-            var fullRepositoryName = rootPath + "\\" + MainWindow.RepositoryFileName;
+            var repositoryName = "\\" + MainWindow.RepositoryFileName;
             foreach (var f in files)
             {
-                if (!f.Equals(fullRepositoryName))
+                if (!f.EndsWith(repositoryName))
                 {
                     var sfile = new SFile();
                     sfile.Path = f.Remove(0, rootPath.Length);
@@ -59,39 +64,28 @@ namespace MySynch
             return result;
         }
 
-        private static List<SOperation> GetOperationsInternal(SFileAndDirectoryContainer leftContainer, SFileAndDirectoryContainer rightContainer, IEnumerable<string> LeftDeleted, IEnumerable<string> rightDeleted)
+        private static List<SOperation> GetOperationsInternal(SFileAndDirectoryContainer leftContainer, SFileAndDirectoryContainer rightContainer,
+                                        IEnumerable<string> leftDeleted, IEnumerable<string> rightDeleted)
         {
-            var result = new List<SOperation>();
-            var Commons = from rf in rightContainer
+            var commons = from rf in rightContainer
                           from lf in leftContainer
                           where rf.Key == lf.Key && rf.GetType() == lf.GetType()
                           select new { left = lf, right = rf };
-            foreach (var c in Commons)
-            {
-                result.Add(new SOperation(c.left.Value, c.right.Value));
-            }
-            var JustInLeft = leftContainer.Except(Commons.Select(a => a.left)).ToArray();
-            foreach (var fd in JustInLeft)
-            {
-                if (!rightDeleted.Contains(fd.Key))
-                {
-                    result.Add(new SOperation(fd.Key, OperationType.CreateInDestination, "", fd.Value is SFile ? ItemMode.File : ItemMode.Directory));
-                }
-            }
-            var JustInRight = rightContainer.Except(Commons.Select(a => a.right)).ToArray();
-            foreach (var fd in JustInRight)
-            {
-                if (!LeftDeleted.Contains(fd.Key))
-                {
-                    result.Add(new SOperation("", OperationType.CreateInSource, fd.Key, fd.Value is SFile ? ItemMode.File : ItemMode.Directory));
-                }
-            }
+
+            var result = commons.Select(c => new SOperation(c.left.Value, c.right.Value)).ToList();
+
+            var justInLeft = leftContainer.Except(commons.Select(a => a.left)).Where(a => !rightDeleted.Contains(a.Key)).ToArray();
+            result.AddRange(justInLeft.Select(fd => new SOperation(fd.Key, OperationType.CreateInDestination, "", fd.Value is SFile ? ItemMode.File : ItemMode.Directory)));
+
+            var justInRight = rightContainer.Except(commons.Select(a => a.right)).Where(a => !leftDeleted.Contains(a.Key)).ToArray();
+            result.AddRange(justInRight.Select(fd => new SOperation("", OperationType.CreateInSource, fd.Key, fd.Value is SFile ? ItemMode.File : ItemMode.Directory)));
+
             return result;
         }
 
         private static SDirectory LoadOldDirectory(string path)
         {
-            var filePath = path + "\\" + MainWindow.RepositoryFileName;
+            var filePath = path + MainWindow.RepositoryFileName;
             if (File.Exists(filePath))
             {
                 var file = File.OpenText(filePath);
@@ -119,20 +113,35 @@ namespace MySynch
             }
         }
 
-        public static List<SOperation> GetOprations(string leftRootPath,string rightRootPath)
+        public static List<SOperation> GetOprations(string leftRootPath, string rightRootPath)
         {
-            var leftDirectory = new SFileAndDirectoryContainer(SynchHelper.GetDirectory(leftRootPath, leftRootPath));
-            var rightDirectory = new SFileAndDirectoryContainer(SynchHelper.GetDirectory(rightRootPath, rightRootPath));
-            var oldLeftDirectory = new SFileAndDirectoryContainer(SynchHelper.LoadOldDirectory(leftRootPath));
-            var oldRightDirectory = new SFileAndDirectoryContainer(SynchHelper.LoadOldDirectory(rightRootPath));
-            var leftDeleted = SynchHelper.GetDeletedFilesOperations(leftDirectory, oldLeftDirectory, true).ToArray();
-            var leftDeletedNames = (from t in leftDeleted select t.RightPath).ToArray();
-            var rightDeleted = SynchHelper.GetDeletedFilesOperations(rightDirectory, oldRightDirectory, false).ToArray();
-            var rightDeletedNames = (from t in rightDeleted select t.LeftPath).ToArray();
-            var operationList = SynchHelper.GetOperationsInternal(leftDirectory, rightDirectory, leftDeletedNames, rightDeletedNames);
+            leftRootPath = CheckFinalbackSlash(leftRootPath);
+            rightRootPath = CheckFinalbackSlash(rightRootPath);
+            var leftDirectory = new SFileAndDirectoryContainer(GetDirectory(leftRootPath));
+            var rightDirectory = new SFileAndDirectoryContainer(GetDirectory(rightRootPath));
+
+            var oldLeftDirectory = new SFileAndDirectoryContainer(LoadOldDirectory(leftRootPath));
+            var oldRightDirectory = new SFileAndDirectoryContainer(LoadOldDirectory(rightRootPath));
+
+            var leftDeleted = GetDeletedFilesOperations(leftDirectory, oldLeftDirectory, true).ToArray();
+            var rightDeleted = GetDeletedFilesOperations(rightDirectory, oldRightDirectory, false).ToArray();
+
+            var operationList = GetOperationsInternal(leftDirectory, rightDirectory, leftDeleted.Select(a => a.RightPath), rightDeleted.Select(a => a.LeftPath));
             operationList.AddRange(leftDeleted);
             operationList.AddRange(rightDeleted);
             return operationList;
+        }
+
+        public static string CheckFinalbackSlash(string path)
+        {
+            if (!string.IsNullOrEmpty(path))
+            {
+                if (path.Substring(path.Length - 1, 1) != "\\")
+                {
+                    return path + "\\";
+                }
+            }
+            return path;
         }
     }
 }

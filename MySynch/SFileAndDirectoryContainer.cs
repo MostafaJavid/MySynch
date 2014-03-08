@@ -21,7 +21,7 @@ namespace MySynch
 
         public SFileAndDirectoryContainer(string rootPath)
         {
-            this.RootPath = rootPath;
+            this.RootPath = SynchHelper.CheckFinalbackSlash(rootPath);
             this.dictionary = new Dictionary<string, SBase>();
         }
 

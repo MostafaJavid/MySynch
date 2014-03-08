@@ -11,6 +11,7 @@ namespace MySynch
     using System.Linq;
     using System.Text;
     using System.IO;
+    using System.Windows.Forms;
 
     /// <summary>
     /// TODO: Update summary.
@@ -23,6 +24,8 @@ namespace MySynch
         public string ErrorMessage { get; private set; }
         public ItemMode Mode { get; private set; }
         public OperationResultMode OperationResult { get; private set; }
+        public string Path { get { return string.IsNullOrEmpty(LeftPath) ? RightPath : LeftPath; } }
+
 
         public SOperation(string leftPath, OperationType opType, string rightPath, ItemMode mode)
         {
@@ -152,10 +155,14 @@ namespace MySynch
                 {
                     Directory.Delete(fullPath);
                 }
+                else
+                {
+                    MessageBox.Show("");
+                }
             }
         }
 
-        private static void CheckAllFoldersExists(string RootPath, string RelatedPath,bool containsFileName)
+        private static void CheckAllFoldersExists(string RootPath, string RelatedPath, bool containsFileName)
         {
             var folders = RelatedPath.Trim('\\').Split('\\');
             var tempPath = RootPath;

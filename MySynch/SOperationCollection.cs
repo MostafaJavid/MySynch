@@ -20,23 +20,23 @@ namespace MySynch
         public string LeftRootPath { get; private set; }
         public string RightRootPath { get; private set; }
         public IEnumerable<SOperation> OperationList { get { return _OperationList; } }
-        List<SOperation> _OperationList;
+        readonly List<SOperation> _OperationList;
         public void Operate()
         {
-            var trashRelatedPath = "\\" + MainWindow.TrashFolderName + "\\" + DateTime.Now.ToString("yyyyMMdd-HHmmss");
+            var trashRelatedPath = "\\" + MainWindow.TrashFolderName + "\\" + DateTime.Now.ToString("yyyyMMdd-HHmmss") + "\\";
             foreach (var o in OperationList)
             {
                 o.Operate(LeftRootPath, RightRootPath, trashRelatedPath);
             }
-            SaveOldDirectory(SynchHelper.GetDirectory(LeftRootPath, LeftRootPath));
-            SaveOldDirectory(SynchHelper.GetDirectory(RightRootPath, RightRootPath));
+            SaveOldDirectory(SynchHelper.GetDirectory(LeftRootPath));
+            SaveOldDirectory(SynchHelper.GetDirectory(RightRootPath));
         }
 
         public SOperationCollection(string leftRoot, string rightRoot, IEnumerable<SOperation> operations)
         {
-            this.LeftRootPath = leftRoot;
-            this.RightRootPath = rightRoot;
-            this._OperationList = operations == null ? new List<SOperation>() : operations.OrderBy(a => a.RightPath).OrderBy(a => a.LeftPath).ToList();
+            this.LeftRootPath = SynchHelper.CheckFinalbackSlash(leftRoot);
+            this.RightRootPath = SynchHelper.CheckFinalbackSlash(rightRoot);
+            this._OperationList = operations == null ? new List<SOperation>() : operations.OrderBy(a => a.RightPath).ThenBy(a => a.LeftPath).ToList();
         }
 
         private void SaveOldDirectory(SDirectory directory)
